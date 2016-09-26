@@ -37,7 +37,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         super(context);
 
         File classifierFile = Loader.extractResource(getClass(),
-                "/org/bytedeco/javacv/facepreview/haarcascade_frontalface_alt.xml",
+                "/org/rainjay/newfaceunlock/camera/haarcascade_frontalface_alt.xml",
                 context.getCacheDir(), "classifier", ".xml");
         if (classifierFile == null || classifierFile.length() <= 0) {
             throw new IOException("Could not extract the classifier file from Java resource.");
