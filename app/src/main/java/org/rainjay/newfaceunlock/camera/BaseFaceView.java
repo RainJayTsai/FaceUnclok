@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Camera;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core.*;
@@ -33,12 +35,45 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     private CvSeq faces;
     private IplImage grayImage;
 
-    public BaseFaceView(Context context) throws IOException {
-        super(context);
+    public BaseFaceView(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        try {
+            init(context);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("rainjay", "not found classifier file");
+        }
+    }
+    public BaseFaceView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        try {
+            init(context);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("rainjay", "not found classifier file");
+        }
+    }
 
+
+    public BaseFaceView(Context context) {
+        super(context);
+        try {
+            init(context);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("rainjay", "not found classifier file");
+        }
+    }
+
+    private void init(Context context) throws IOException{
+        Log.d("rainjay", "BaseFaceView Construct");
         File classifierFile = Loader.extractResource(getClass(),
-                "/org/rainjay/newfaceunlock/camera/haarcascade_frontalface_alt.xml",
+                "/org/bytedeco/javacv/facepreview/haarcascade_frontalface_alt.xml",
                 context.getCacheDir(), "classifier", ".xml");
+
+        /*File classifierFile = new File(context.getCacheDir(),
+                "haarcascade_frontalface_alt.xml");*/
         if (classifierFile == null || classifierFile.length() <= 0) {
             throw new IOException("Could not extract the classifier file from Java resource.");
         }

@@ -25,6 +25,11 @@ android {
         pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.properties'
         pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.xml'
     }
+    sourceSets{
+        main{
+            assets.srcDirs = ['assets']
+        }
+    }
 }
 
 dependencies {

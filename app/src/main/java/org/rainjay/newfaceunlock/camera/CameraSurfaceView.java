@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -29,6 +30,14 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.mHolder = getHolder();
         this.mHolder.addCallback(this);
         this.mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    }
+
+    public CameraSurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CameraSurfaceView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
     @Override
