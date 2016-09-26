@@ -6,6 +6,7 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
+import org.rainjay.newfaceunlock.service.RequestUserPermission;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -18,6 +19,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        RequestUserPermission requestUserPermission = new RequestUserPermission(this);
+        requestUserPermission.verifyCameraPermissions();
 
         layout = (RelativeLayout) findViewById(R.id.activity_register);
         baseFaceView = new BaseFaceView(this);
