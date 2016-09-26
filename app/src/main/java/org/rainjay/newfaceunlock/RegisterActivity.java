@@ -2,11 +2,9 @@ package org.rainjay.newfaceunlock;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
-import org.rainjay.newfaceunlock.service.RequestUserPermission;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -17,11 +15,15 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        RequestUserPermission requestUserPermission = new RequestUserPermission(this);
-        requestUserPermission.verifyCameraPermissions();
+        setContentView(R.layout.activity_register);
+
+
+
 
         layout = (RelativeLayout) findViewById(R.id.activity_register);
         baseFaceView = new BaseFaceView(this);

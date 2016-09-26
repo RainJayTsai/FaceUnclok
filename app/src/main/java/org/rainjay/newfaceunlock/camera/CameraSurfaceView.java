@@ -46,6 +46,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         Log.d("rainjay","start camera");
         if(mCamera == null){
             mCamera = Camera.open();
+            mCamera.setDisplayOrientation(90);
             try {
                 mCamera.setPreviewDisplay(holder);
             } catch (IOException e) {
