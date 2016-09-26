@@ -69,7 +69,8 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     private void init(Context context) throws IOException{
         Log.d("rainjay", "BaseFaceView Construct");
         File classifierFile = Loader.extractResource(getClass(),
-                "/org/bytedeco/javacv/facepreview/haarcascade_frontalface_alt.xml",
+                //"/org/bytedeco/javacv/facepreview/haarcascade_frontalface_alt.xml",
+                "/org/rainjay/haarcascade_frontalface_alt.xml",
                 context.getCacheDir(), "classifier", ".xml");
 
         /*File classifierFile = new File(context.getCacheDir(),
