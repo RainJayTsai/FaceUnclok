@@ -138,6 +138,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         canvas.drawText(s, (getWidth()-textWidth)/2, 20, paint);
 
         if (faces != null) {
+            Log.d("rainjay", "onDraw: Find Face!!!");
             paint.setStrokeWidth(2);
             paint.setStyle(Paint.Style.STROKE);
             float scaleX = (float)getWidth()/grayImage.width();
