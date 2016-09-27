@@ -58,23 +58,25 @@ public class RegisterActivity extends AppCompatActivity {
             trainImages = new MatVector(takeNum);
             trainLabel = new Mat(takeNum,1,CV_32SC1);
             labelsBuf = trainLabel.createBuffer();
+            count = 0;
             createCameraView();
     }
 
     private  int count = 0;
     @SuppressWarnings("deprecation")
     public void takePhoto(View view) {
-        IplImage face = baseFaceView.captureFace();
+        final IplImage face = baseFaceView.captureFace();
         if( face != null) {
             if(takeNum >= 1){
                 takeNum--;
-                trainImages.put(count,new Mat(face));
+                Mat tmp = new Mat(face.asCvMat());
+                trainImages.put(count,tmp);
                 labelsBuf.put(count, 1);
                 count++;
             }
-            if( takeNum == 1){
+            if( takeNum == 0){
                 this.destoryCamereView();
-                faceRecognizer.train(trainImages,trainLabel);
+                //faceRecognizer.train(trainImages,trainLabel);
             }
         }
 
