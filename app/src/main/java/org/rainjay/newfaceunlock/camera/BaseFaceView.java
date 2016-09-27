@@ -117,7 +117,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         int imageHeight = grayImage.height();
         int dataStride = f*width;
         int imageStride = grayImage.widthStep();
-        ByteBuffer imageBuffer = grayImage.getByteBuffer();
+        ByteBuffer imageBuffer = grayImage.createBuffer();
         for (int y = 0; y < imageHeight; y++) {
             int dataLine = y*dataStride;
             int imageLine = y*imageStride;

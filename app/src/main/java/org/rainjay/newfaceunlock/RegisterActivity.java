@@ -9,10 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
-import org.bytedeco.javacpp.presets.opencv_objdetect;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 
@@ -71,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity {
         if( facex != null) {
             if(takeNum >= 1){
                 takeNum--;
-                Loader.load(opencv_objdetect.class);
                 trainImages.put(counter,new Mat(facex));
                 labelsBuf.put(counter, 1);
                 counter++;
