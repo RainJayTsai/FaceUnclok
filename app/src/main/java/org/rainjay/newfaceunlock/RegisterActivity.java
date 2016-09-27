@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         IplImage face = baseFaceView.captureFace();
         if( face != null) {
             Bitmap bmp = Bitmap.createBitmap(face.width(), face.height(), Config.ARGB_8888);
-            bmp.copyPixelsFromBuffer(face.createBuffer());
+            bmp.copyPixelsFromBuffer(face.getByteBuffer());
             ImageView image = (ImageView) findViewById(R.id.faceimage);
             image.setImageBitmap(bmp);
             this.destoryCamereView();
