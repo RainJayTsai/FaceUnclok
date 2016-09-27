@@ -138,12 +138,13 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         canvas.drawText(s, (getWidth()-textWidth)/2, 20, paint);
 
         if (faces != null) {
-            Log.d("rainjay", "onDraw: Find Face!!!");
+
             paint.setStrokeWidth(2);
             paint.setStyle(Paint.Style.STROKE);
             float scaleX = (float)getWidth()/grayImage.width();
             float scaleY = (float)getHeight()/grayImage.height();
             int total = faces.total();
+            Log.d("rainjay", "Find Face " + total);
             for (int i = 0; i < total; i++) {
                 CvRect r = new CvRect(cvGetSeqElem(faces, i));
                 int x = r.x(), y = r.y(), w = r.width(), h = r.height();
