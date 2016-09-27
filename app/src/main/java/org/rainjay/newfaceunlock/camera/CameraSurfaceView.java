@@ -61,7 +61,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Camera.Parameters parameters = mCamera.getParameters();
         List<Size> sizeList = parameters.getSupportedPreviewSizes();
-        Size optimalSize = getOptimalPreviewSize(sizeList, width, height);
+        Size optimalSize = getOptimalPreviewSize(sizeList, height, width);
         parameters.setPreviewSize(optimalSize.height,optimalSize.width);
 
         mCamera.setParameters(parameters);
