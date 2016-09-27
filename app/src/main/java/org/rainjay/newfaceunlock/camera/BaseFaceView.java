@@ -104,7 +104,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
 
     }
 
-    public IplImage processImage(byte[] data, int width, int height) {
+    public void processImage(byte[] data, int width, int height) {
         // First, downsample our image and convert it into a grayscale IplImage
         int f = SUBSAMPLING_FACTOR;
         if (grayImage == null || grayImage.width() != width/f || grayImage.height() != height/f) {
@@ -129,10 +129,6 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
 
         postInvalidate();
 
-        if(faces.total() == 1)
-            return  IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
-        else
-            return null;
 
     }
 
@@ -160,5 +156,9 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
                 canvas.drawRect(x*scaleX, y*scaleY, (x+w)*scaleX, (y+h)*scaleY, paint);
             }
         }
+    }
+
+    public IplImage captureFace(){
+        return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
     }
 }
