@@ -1,10 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_register"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         tools:context="org.rainjay.newfaceunlock.RegisterActivity">
+
+    <TextView
+            android:text="你想要拍幾張照片"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="81dp"
+            android:id="@+id/textView"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="5"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="21dp"
+            android:id="@+id/editText"
+            android:gravity="center"
+            android:inputType="number"
+            android:hint="幾張"/>
+
+    <Button
+            android:text="Start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startbutton"
+            android:onClick="goRegisterCamera"
+            android:layout_below="@+id/editText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"/>
+
+    <Button
+            android:text="Take"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="35dp"
+            android:id="@+id/takePhotoButton"
+            android:visibility="invisible"
+            android:onClick="takePhoto"/>
+
+    <ImageView
+            app:srcCompat="@mipmap/ic_launcher"
+            android:layout_marginBottom="36dp"
+            android:id="@+id/faceimage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_above="@+id/takePhotoButton"
+            android:layout_centerHorizontal="true"/>
+
 
 </RelativeLayout>

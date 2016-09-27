@@ -1,8 +1,15 @@
 package org.rainjay.newfaceunlock;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 
@@ -11,6 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RelativeLayout layout;
     private BaseFaceView baseFaceView;
     private CameraSurfaceView preview;
+    private final  static String TAG = "rainjay";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,18 +30,44 @@ public class RegisterActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_register);
 
+    }
 
+    private int takeNum = 0;
+    public void goRegisterCamera(View view) {
+        EditText numberText = (EditText)findViewById(R.id.editText);
 
+        try {
+            takeNum = Integer.valueOf(numberText.getText().toString());
+        } catch (NumberFormatException e) {
+            return;
+        }
+        if( takeNum > 0)
+            createCameraView();
+    }
 
+    public void takePhoto(View view) {
+        IplImage face = baseFaceView.captureFace();
+        Bitmap bmp = Bitmap.createBitmap(face.width(),face.height(), Config.ARGB_8888);
+        bmp.copyPixelsFromBuffer(face.createBuffer());
+        ImageView image = (ImageView)findViewById(R.id.faceimage);
+        image.setImageBitmap(bmp);
+        this.destoryCamereView();
+
+    }
+
+    private void createCameraView(){
+        ((Button)findViewById(R.id.takePhotoButton)).setVisibility(View.VISIBLE);
+        ((Button)findViewById(R.id.startbutton)).setVisibility(View.GONE);
         layout = (RelativeLayout) findViewById(R.id.activity_register);
         baseFaceView = new BaseFaceView(this);
         preview = new CameraSurfaceView(this,baseFaceView);
 
         layout.addView(preview);
         layout.addView(baseFaceView);
-        //setContentView(layout);
+    }
 
-
-
+    private  void destoryCamereView(){
+        layout.removeView(preview);
+        layout.removeView(baseFaceView);
     }
 }
