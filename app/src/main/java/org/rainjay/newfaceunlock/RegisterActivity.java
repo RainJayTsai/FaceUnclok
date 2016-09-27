@@ -47,11 +47,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void takePhoto(View view) {
         IplImage face = baseFaceView.captureFace();
-        Bitmap bmp = Bitmap.createBitmap(face.width(),face.height(), Config.ARGB_8888);
-        bmp.copyPixelsFromBuffer(face.createBuffer());
-        ImageView image = (ImageView)findViewById(R.id.faceimage);
-        image.setImageBitmap(bmp);
-        this.destoryCamereView();
+        if( face != null) {
+            Bitmap bmp = Bitmap.createBitmap(face.width(), face.height(), Config.ARGB_8888);
+            bmp.copyPixelsFromBuffer(face.createBuffer());
+            ImageView image = (ImageView) findViewById(R.id.faceimage);
+            image.setImageBitmap(bmp);
+            this.destoryCamereView();
+        }
 
     }
 

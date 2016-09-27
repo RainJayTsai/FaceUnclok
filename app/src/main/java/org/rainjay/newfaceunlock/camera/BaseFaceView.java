@@ -161,6 +161,9 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     }
 
     public IplImage captureFace(){
-        return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
+        if( faces.total() == 1)
+            return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
+        else
+            return null;
     }
 }
