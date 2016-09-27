@@ -107,8 +107,10 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     public void processImage(byte[] data, int width, int height) {
         // First, downsample our image and convert it into a grayscale IplImage
         int f = SUBSAMPLING_FACTOR;
+        IplImage transposed = null;
         if (grayImage == null || grayImage.width() != width/f || grayImage.height() != height/f) {
             grayImage = IplImage.create(width/f, height/f, IPL_DEPTH_8U, 1);
+            transposed = IplImage.create(height/f, width/f, IPL_DEPTH_8U, 1);
         }
         int imageWidth  = grayImage.width();
         int imageHeight = grayImage.height();
@@ -123,6 +125,12 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
             }
         }
         Log.d("rainjay", "processImage: "+ grayImage.height() + " " + grayImage.width());
+
+        cvTranspose(grayImage, transposed);
+        cvFlip(transposed, transposed, 0);
+        grayImage = transposed;
+
+
 
         cvClearMemStorage(storage);
         faces = cvHaarDetectObjects(grayImage, classifier, storage, 1.1, 3,
