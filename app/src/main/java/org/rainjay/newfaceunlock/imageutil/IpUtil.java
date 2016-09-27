@@ -14,7 +14,7 @@ public class IpUtil {
         cvSetImageROI(frame, rect);
         IplImage face = cvCreateImage(cvGetSize(frame), frame.depth(), frame.nChannels());
         cvCopy(frame, face);
-        cvResetImageROI(frame);
+//        cvResetImageROI(frame);
         return  face;
     }
 }

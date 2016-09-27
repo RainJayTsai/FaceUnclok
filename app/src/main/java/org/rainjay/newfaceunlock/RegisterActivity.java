@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
+import org.bytedeco.javacpp.presets.opencv_objdetect;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 
@@ -58,21 +60,21 @@ public class RegisterActivity extends AppCompatActivity {
             trainImages = new MatVector(takeNum);
             trainLabel = new Mat(takeNum,1,CV_32SC1);
             labelsBuf = trainLabel.createBuffer();
-            count = 0;
+            counter = 0;
             createCameraView();
     }
 
-    private  int count = 0;
+    private  int counter = 0;
     @SuppressWarnings("deprecation")
     public void takePhoto(View view) {
-        final IplImage face = baseFaceView.captureFace();
-        if( face != null) {
+        IplImage facex = baseFaceView.captureFace();
+        if( facex != null) {
             if(takeNum >= 1){
                 takeNum--;
-                Mat tmp = new Mat(face.asCvMat());
-                trainImages.put(count,tmp);
-                labelsBuf.put(count, 1);
-                count++;
+                Loader.load(opencv_objdetect.class);
+                trainImages.put(counter,new Mat(facex));
+                labelsBuf.put(counter, 1);
+                counter++;
             }
             if( takeNum == 0){
                 this.destoryCamereView();
