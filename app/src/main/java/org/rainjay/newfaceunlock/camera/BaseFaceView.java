@@ -12,6 +12,7 @@ import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_objdetect.CvHaarClassifierCascade;
 import org.bytedeco.javacpp.presets.opencv_objdetect;
+import org.rainjay.newfaceunlock.imageutil.IpUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     public static final int SUBSAMPLING_FACTOR = 4;
     private CvSeq faces;
     private IplImage grayImage;
+
 
     public BaseFaceView(Context context, AttributeSet attrs)
     {
@@ -102,7 +104,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
 
     }
 
-    public void processImage(byte[] data, int width, int height) {
+    public IplImage processImage(byte[] data, int width, int height) {
         // First, downsample our image and convert it into a grayscale IplImage
         int f = SUBSAMPLING_FACTOR;
         if (grayImage == null || grayImage.width() != width/f || grayImage.height() != height/f) {
@@ -124,7 +126,14 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         cvClearMemStorage(storage);
         faces = cvHaarDetectObjects(grayImage, classifier, storage, 1.1, 3,
                 CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH);
+
         postInvalidate();
+
+        if(faces.total() == 1)
+            return  IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
+        else
+            return null;
+
     }
 
     @Override
