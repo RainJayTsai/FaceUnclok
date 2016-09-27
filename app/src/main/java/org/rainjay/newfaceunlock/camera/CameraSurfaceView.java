@@ -46,7 +46,10 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         Log.d("rainjay","start camera");
         if(mCamera == null){
             mCamera = Camera.open(1);
+            Camera.Parameters parameters = mCamera.getParameters();
+            parameters.set("orientation", "portrait");
             mCamera.setDisplayOrientation(90);
+            mCamera.setParameters(parameters);
             try {
                 mCamera.setPreviewDisplay(holder);
             } catch (IOException e) {
@@ -60,7 +63,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Camera.Parameters parameters = mCamera.getParameters();
-        mCamera.setDisplayOrientation(90);
         List<Size> sizeList = parameters.getSupportedPreviewSizes();
         Size optimalSize = getOptimalPreviewSize(sizeList, width, height);
         parameters.setPreviewSize(optimalSize.width,optimalSize.height);
