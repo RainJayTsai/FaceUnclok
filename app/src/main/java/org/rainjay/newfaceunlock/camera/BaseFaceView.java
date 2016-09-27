@@ -95,6 +95,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     public void onPreviewFrame(byte[] data, Camera camera) {
         try {
             Camera.Size size = camera.getParameters().getPreviewSize();
+            Log.d("rainjay", "onPreviewFrame: ");
             processImage(data, size.width, size.height);
             camera.addCallbackBuffer(data);
         } catch (RuntimeException e) {
@@ -122,6 +123,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
                 imageBuffer.put(imageLine + x, data[dataLine + f*x]);
             }
         }
+        Log.d("rainjay", "processImage: "+ grayImage.height() + " " + grayImage.width());
 
         cvClearMemStorage(storage);
         faces = cvHaarDetectObjects(grayImage, classifier, storage, 1.1, 3,

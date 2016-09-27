@@ -70,4 +70,5 @@ public class RegisterActivity extends AppCompatActivity {
         layout.removeView(preview);
         layout.removeView(baseFaceView);
     }
+
 }
