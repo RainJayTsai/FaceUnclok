@@ -65,11 +65,11 @@ public class RegisterActivity extends AppCompatActivity {
     private  int counter = 0;
     @SuppressWarnings("deprecation")
     public void takePhoto(View view) {
-        IplImage facex = baseFaceView.captureFace();
+        Mat facex = baseFaceView.captureFace();
         if( facex != null) {
             if(takeNum >= 1){
                 takeNum--;
-                trainImages.put(counter,new Mat(facex));
+                //trainImages.put(counter,new Mat(facex));
                 labelsBuf.put(counter, 1);
                 counter++;
             }

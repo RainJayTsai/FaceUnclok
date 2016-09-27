@@ -68,6 +68,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         }
     }
 
+    private MatVector tmp  = null;
     private void init(Context context) throws IOException{
         Log.d("rainjay", "BaseFaceView Construct");
         File classifierFile = Loader.extractResource(getClass(),
@@ -89,6 +90,9 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
             throw new IOException("Could not load the classifier file.");
         }
         storage = CvMemStorage.create();
+        tmp = new MatVector(2);
+
+
     }
 
     @Override
@@ -104,7 +108,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
 
 
     }
-
+    private int acounter = 0;
     public void processImage(byte[] data, int width, int height) {
         // First, downsample our image and convert it into a grayscale IplImage
         int f = SUBSAMPLING_FACTOR;
@@ -137,6 +141,9 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         faces = cvHaarDetectObjects(grayImage, classifier, storage, 1.1, 3,
                 CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH);
 
+        if( faces.total() == 1 ){
+            tmp.put(acounter++, captureFace());
+        }
         postInvalidate();
 
 
@@ -168,9 +175,9 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         }
     }
 
-    public IplImage captureFace(){
+    public Mat captureFace(){
         if( faces.total() == 1)
-            return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
+            return new Mat(IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0))));
         else
             return null;
     }
