@@ -70,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                 takeNum--;
                 trainImages.put(count,new Mat(face));
                 labelsBuf.put(count, 1);
+                count++;
             }
             if( takeNum == 1){
                 this.destoryCamereView();
