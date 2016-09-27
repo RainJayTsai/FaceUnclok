@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
     private  int counter = 0;
     @SuppressWarnings("deprecation")
     public void takePhoto(View view) {
-        Mat facex = baseFaceView.captureFace();
+        IplImage facex = baseFaceView.captureFace();
         if( facex != null) {
             if(takeNum >= 1){
                 takeNum--;
