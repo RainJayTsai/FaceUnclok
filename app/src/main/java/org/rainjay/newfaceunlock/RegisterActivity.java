@@ -13,6 +13,12 @@ import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 
+import static org.bytedeco.javacpp.opencv_core.IPL_DEPTH_8U;
+import static org.bytedeco.javacpp.opencv_core.cvCreateImage;
+import static org.bytedeco.javacpp.opencv_core.cvGetSize;
+import static org.bytedeco.javacpp.opencv_imgproc.CV_GRAY2RGBA;
+import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private RelativeLayout layout;
@@ -45,11 +51,14 @@ public class RegisterActivity extends AppCompatActivity {
             createCameraView();
     }
 
+    @SuppressWarnings("deprecation")
     public void takePhoto(View view) {
         IplImage face = baseFaceView.captureFace();
         if( face != null) {
             Bitmap bmp = Bitmap.createBitmap(face.width(), face.height(), Config.ARGB_8888);
-            bmp.copyPixelsFromBuffer(face.getByteBuffer());
+            IplImage temp = cvCreateImage(cvGetSize(face), IPL_DEPTH_8U, 4);
+            cvCvtColor(face, temp , CV_GRAY2RGBA);
+            bmp.copyPixelsFromBuffer(temp.createBuffer());
             ImageView image = (ImageView) findViewById(R.id.faceimage);
             image.setImageBitmap(bmp);
             this.destoryCamereView();
