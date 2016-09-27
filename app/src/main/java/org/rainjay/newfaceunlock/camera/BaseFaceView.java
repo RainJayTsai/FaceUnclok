@@ -12,6 +12,7 @@ import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_objdetect.CvHaarClassifierCascade;
 import org.bytedeco.javacpp.presets.opencv_objdetect;
+import org.rainjay.newfaceunlock.imageutil.IpUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -168,10 +169,9 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     }
 
     public IplImage captureFace(){
-//        if( faces.total() == 1)
-//            return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
-//        else
-//            return null;
-        return grayImage;
+        if( faces.total() == 1)
+            return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
+        else
+            return null;
     }
 }
