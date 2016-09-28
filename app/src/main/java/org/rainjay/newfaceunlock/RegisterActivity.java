@@ -70,12 +70,13 @@ public class RegisterActivity extends AppCompatActivity {
         if( facex != null) {
             if(takeNum >= 1){
                 takeNum--;
-                //trainImages.put(counter,new Mat(facex));
+                trainImages.put(counter,new Mat(facex));
                 labelsBuf.put(counter, 1);
                 counter++;
             }
             if( takeNum == 0){
                 this.destoryCamereView();
+                setContentView(R.layout.activity_register2);
                 faceRecognizer.train(trainImages,trainLabel);
                 faceRecognizer.save(this.getFilesDir() + FaceRecognizerSingleton.getSaveFileName());
             }
@@ -108,5 +109,9 @@ public class RegisterActivity extends AppCompatActivity {
         bmp.copyPixelsFromBuffer(temp.createBuffer());
         ImageView image = (ImageView) findViewById(R.id.faceimage);
         image.setImageBitmap(bmp);
+    }
+
+    public void returnOnclick(View view) {
+        finish();
     }
 }

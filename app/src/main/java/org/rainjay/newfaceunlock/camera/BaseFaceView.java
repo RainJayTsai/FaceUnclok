@@ -106,8 +106,6 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
 
 
     }
-    private int acounter = 0;
-    private MatVector tmp = new MatVector(2);
     public void processImage(byte[] data, int width, int height) {
         // First, downsample our image and convert it into a grayscale IplImage
         int f = SUBSAMPLING_FACTOR;
@@ -133,10 +131,6 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         cvTranspose(grayImage, transposed);
         cvFlip(transposed, transposed, 0);
         grayImage = transposed;
-
-        if(acounter < 2 ){
-            tmp.put(acounter++, new Mat(grayImage));
-        }
 
         cvClearMemStorage(storage);
         faces = cvHaarDetectObjects(grayImage, classifier, storage, 1.1, 3,
