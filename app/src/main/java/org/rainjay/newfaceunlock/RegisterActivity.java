@@ -18,7 +18,6 @@ import org.rainjay.newfaceunlock.imageutil.FaceRecognizerSingleton;
 import java.nio.IntBuffer;
 
 import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_face.createLBPHFaceRecognizer;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_GRAY2RGBA;
 import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
 
@@ -41,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_register);
-        faceRecognizer = createLBPHFaceRecognizer(1,8,8,8,95);
+        faceRecognizer = FaceRecognizerSingleton.getInstance();
 
     }
 
@@ -49,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
     private IntBuffer labelsBuf = null;
     public void goRegisterCamera(View view) {
         EditText numberText = (EditText)findViewById(R.id.editText);
-
         try {
             takeNum = Integer.valueOf(numberText.getText().toString());
         } catch (NumberFormatException e) {

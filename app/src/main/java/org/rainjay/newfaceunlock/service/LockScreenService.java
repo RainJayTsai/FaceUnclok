@@ -6,6 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 public class LockScreenService extends Service {
 
@@ -37,6 +40,7 @@ public class LockScreenService extends Service {
         registerReceiver(receiver, filter);
 
         super.onCreate();
+        Log.d(TAG, "onCreate: Service");
     }
 
     @Override

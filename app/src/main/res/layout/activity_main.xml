@@ -20,4 +20,24 @@
             android:layout_marginTop="46dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"/>
+
+    <Button
+            android:text="Start Service"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="106dp"
+            android:id="@+id/start_service_button"
+            android:layout_below="@+id/registerButton"
+            android:layout_centerHorizontal="true"
+            android:onClick="startServiceOnClick"/>
+
+    <Button
+            android:text="Test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/registerButton"
+            android:id="@+id/button2"
+            android:onClick="testOnClick"/>
 </RelativeLayout>
