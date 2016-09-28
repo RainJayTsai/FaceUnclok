@@ -13,6 +13,7 @@ import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
+import org.rainjay.newfaceunlock.imageutil.FaceRecognizerSingleton;
 
 import java.nio.IntBuffer;
 
@@ -75,7 +76,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
             if( takeNum == 0){
                 this.destoryCamereView();
-                //faceRecognizer.train(trainImages,trainLabel);
+                faceRecognizer.train(trainImages,trainLabel);
+                faceRecognizer.save(this.getFilesDir() + FaceRecognizerSingleton.getSaveFileName());
             }
         }
 
