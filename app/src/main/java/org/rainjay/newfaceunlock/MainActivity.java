@@ -21,7 +21,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("rainjay", "onDestroy: Main");
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("rainjay", "onBackPressed: Main");
+        if(isServiceRunFlag){
+            startService(new Intent(this,LockScreenService.class));
+
+        }
     }
 
     @Override
@@ -55,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
         if(isServiceRunFlag){
             stopService(new Intent(this,LockScreenService.class));
             serviceBtn.setText("Start Service");
+            isServiceRunFlag = false;
         }
         else {
             startService(new Intent(this, LockScreenService.class));
             serviceBtn.setText("Stop Service");
+            isServiceRunFlag = true;
         }
     }
 

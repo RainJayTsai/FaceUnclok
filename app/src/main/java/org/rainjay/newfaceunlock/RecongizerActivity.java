@@ -1,6 +1,7 @@
 package org.rainjay.newfaceunlock;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 import org.rainjay.newfaceunlock.imageutil.FaceRecognizerSingleton;
+import org.rainjay.newfaceunlock.service.LockScreenService;
 
 import java.io.File;
 
@@ -46,7 +48,7 @@ public class RecongizerActivity extends Activity {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-//                    startService(new Intent(RecongizerActivity.this, LockScreenService.class));
+                    startService(new Intent(RecongizerActivity.this, LockScreenService.class));
 //                    Intent main = new Intent(RecongizerActivity.this, MainActivity.class);
 //                    main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    Bundle bundle = new Bundle();
@@ -109,6 +111,7 @@ public class RecongizerActivity extends Activity {
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed: recongition");
         super.onBackPressed();
+        finish();
     }
 
     @Override
