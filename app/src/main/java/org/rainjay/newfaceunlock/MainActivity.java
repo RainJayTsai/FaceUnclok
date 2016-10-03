@@ -18,17 +18,31 @@ public class MainActivity extends AppCompatActivity {
     private boolean isServiceRunFlag = false;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("rainjay", "onDestroy: Main");
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("rainjay", "onCreate: Main");
 
         RequestUserPermission requestUserPermission = new RequestUserPermission(this);
         requestUserPermission.verifyCameraPermissions();
         serviceBtn = (Button)findViewById(R.id.start_service_button);
         isServiceRunFlag = isMyServiceRunning(LockScreenService.class);
-       if(isServiceRunFlag){
-           serviceBtn.setText("Stop Service");
-       }
+        if(isServiceRunFlag){
+            serviceBtn.setText("Stop Service");
+        }
+//        TinyDancer.create()
+//                .redFlagPercentage(.1f) // set red indicator for 10%
+//                .startingGravity(Gravity.TOP)
+//                .startingXPosition(15)
+//                .startingYPosition(15)
+//                .show(this);
     }
 
     public void registerOnClick(View view) {

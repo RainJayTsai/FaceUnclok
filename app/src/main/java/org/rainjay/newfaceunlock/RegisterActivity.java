@@ -15,6 +15,7 @@ import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 import org.rainjay.newfaceunlock.imageutil.FaceRecognizerSingleton;
 
+import java.io.File;
 import java.nio.IntBuffer;
 
 import static org.bytedeco.javacpp.opencv_core.*;
@@ -76,6 +77,12 @@ public class RegisterActivity extends AppCompatActivity {
                 this.destoryCamereView();
                 setContentView(R.layout.activity_register2);
                 faceRecognizer.train(trainImages,trainLabel);
+
+                // check train data is exist
+                File tmp = new File(this.getFilesDir() + FaceRecognizerSingleton.getSaveFileName());
+                if( tmp.exists() ){
+                    tmp.delete();
+                }
                 faceRecognizer.save(this.getFilesDir() + FaceRecognizerSingleton.getSaveFileName());
             }
         }

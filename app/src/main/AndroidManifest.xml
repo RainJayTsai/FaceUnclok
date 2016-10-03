@@ -43,6 +43,14 @@
 
         <service android:name=".service.LockScreenService"/>
 
+        <receiver
+                android:name=".service.LockScreenReceiver"
+                android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".BlackActivity"
                   android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>

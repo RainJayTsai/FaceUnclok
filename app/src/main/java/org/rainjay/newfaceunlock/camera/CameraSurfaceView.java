@@ -31,6 +31,12 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.mHolder = getHolder();
         this.mHolder.addCallback(this);
         this.mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+//        int margin = 0;
+//        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+//        lp.setMargins(margin, 0, 0, 0);
+//        //this.setLayoutParams(lp);
+
     }
 
     public CameraSurfaceView(Context context, AttributeSet attrs) {
@@ -64,7 +70,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Camera.Parameters parameters = mCamera.getParameters();
         List<Size> sizeList = parameters.getSupportedPreviewSizes();
-        Size optimalSize = getOptimalPreviewSize(sizeList, width, height);
+        Size optimalSize = getOptimalPreviewSize(sizeList, height, width);
+        Log.d("rainjay", "surfaceChanged: W:" + optimalSize.width + " H: " + optimalSize.height);
         parameters.setPreviewSize(optimalSize.width,optimalSize.height);
 
         mCamera.setParameters(parameters);

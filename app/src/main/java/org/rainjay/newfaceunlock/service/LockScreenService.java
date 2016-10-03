@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
-import static android.content.ContentValues.TAG;
-
 public class LockScreenService extends Service {
 
     BroadcastReceiver receiver;
@@ -40,11 +38,12 @@ public class LockScreenService extends Service {
         registerReceiver(receiver, filter);
 
         super.onCreate();
-        Log.d(TAG, "onCreate: Service");
+        Log.d("rainjay", "onCreate: Service");
     }
 
     @Override
     public void onDestroy() {
+        Log.d("rainjay", "onDestroy: service");
         unregisterReceiver(receiver);
         super.onDestroy();
     }

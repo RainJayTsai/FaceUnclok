@@ -97,7 +97,6 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     public void onPreviewFrame(byte[] data, Camera camera) {
         try {
             Camera.Size size = camera.getParameters().getPreviewSize();
-            Log.d("rainjay", "onPreviewFrame: ");
             processImage(data, size.width, size.height);
             camera.addCallbackBuffer(data);
         } catch (RuntimeException e) {
@@ -126,7 +125,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
                 imageBuffer.put(imageLine + x, data[dataLine + f*x]);
             }
         }
-        Log.d("rainjay", "processImage: "+ grayImage.height() + " " + grayImage.width());
+//        Log.d("rainjay", "processImage: "+ grayImage.height() + " " + grayImage.width());
 
         cvTranspose(grayImage, transposed);
         cvFlip(transposed, transposed, 0);
@@ -158,16 +157,18 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
             float scaleX = (float)getWidth()/grayImage.width();
             float scaleY = (float)getHeight()/grayImage.height();
             int total = faces.total();
-            Log.d("rainjay", "Find Face " + total);
+//            Log.d("rainjay", "Find Face " + total);
             for (int i = 0; i < total; i++) {
                 CvRect r = new CvRect(cvGetSeqElem(faces, i));
                 int x = r.x(), y = r.y(), w = r.width(), h = r.height();
                 canvas.drawRect(x*scaleX, y*scaleY, (x+w)*scaleX, (y+h)*scaleY, paint);
             }
+            faces = null;
         }
     }
 
     public IplImage captureFace(){
+        if( faces == null || grayImage == null){ return null; }
         if( faces.total() == 1)
             return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
         else
