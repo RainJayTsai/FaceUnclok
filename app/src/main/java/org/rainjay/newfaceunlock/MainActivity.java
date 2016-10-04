@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("rainjay", "onBackPressed: Main");
         if(isServiceRunFlag){
             startService(new Intent(this,LockScreenService.class));
-
         }
     }
 

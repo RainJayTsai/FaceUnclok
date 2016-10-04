@@ -35,15 +35,13 @@ public class RecongizerActivity extends Activity {
 
 
         if( new File(getFilesDir()+FaceRecognizerSingleton.getSaveFileName()).exists()){
-            faceRecognizer = FaceRecognizerSingleton.getInstance();
-            faceRecognizer.load(getFilesDir()+FaceRecognizerSingleton.getSaveFileName());
             layout = (RelativeLayout) findViewById(R.id.activity_recongizer);
             baseFaceView = new BaseFaceView(this);
             preview = new CameraSurfaceView(this,baseFaceView);
-
             layout.addView(preview);
             layout.addView(baseFaceView);
-
+            faceRecognizer = FaceRecognizerSingleton.getInstance();
+            faceRecognizer.load(getFilesDir()+FaceRecognizerSingleton.getSaveFileName());
             mhandler = new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
@@ -111,7 +109,6 @@ public class RecongizerActivity extends Activity {
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed: recongition");
         super.onBackPressed();
-        finish();
     }
 
     @Override
