@@ -47,6 +47,7 @@ public class RecongizerActivity extends Activity {
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     startService(new Intent(RecongizerActivity.this, LockScreenService.class));
+                    layout.removeView(baseFaceView);
 //                    Intent main = new Intent(RecongizerActivity.this, MainActivity.class);
 //                    main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    Bundle bundle = new Bundle();
@@ -114,6 +115,7 @@ public class RecongizerActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        finish();
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 }
