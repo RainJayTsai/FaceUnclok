@@ -12,6 +12,8 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.List;
 
+import static com.codemonkeylabs.fpslibrary.Foreground.TAG;
+
 /**
  * Created by RainJay on 2016/9/26.
  */
@@ -22,6 +24,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private Camera.PreviewCallback previewCallback;
     private Camera mCamera = null;
     private SurfaceHolder mHolder;
+    private boolean isRunPreview = false;
 
 
     public CameraSurfaceView(Context context, Camera.PreviewCallback previewCallback) {
@@ -82,13 +85,15 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     ImageFormat.getBitsPerPixel(parameters.getPreviewFormat())/8];
             mCamera.addCallbackBuffer(data);
         }
-        mCamera.startPreview();
+        startPreview();
 
 
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d(TAG, "surfaceDestroyed: ");
+        mCamera.setPreviewCallback(null);
         mCamera.stopPreview();
         mCamera.release();
         mCamera = null;
@@ -125,5 +130,21 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         return optimalSize;
+    }
+
+    public boolean startPreview(){
+        if (!isRunPreview && mCamera != null){
+            isRunPreview = true;
+            mCamera.startPreview();
+        }
+        return isRunPreview;
+    }
+
+    public boolean stopPreview(){
+        if (isRunPreview && mCamera != null){
+            mCamera.stopPreview();
+            isRunPreview = false;
+        }
+        return isRunPreview;
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import org.bytedeco.javacpp.opencv_core.IplImage;
@@ -47,7 +48,7 @@ public class RecongizerActivity extends Activity {
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     startService(new Intent(RecongizerActivity.this, LockScreenService.class));
-                    layout.removeView(baseFaceView);
+                    baseFaceView.setVisibility(View.INVISIBLE);
 //                    Intent main = new Intent(RecongizerActivity.this, MainActivity.class);
 //                    main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    Bundle bundle = new Bundle();
@@ -56,6 +57,7 @@ public class RecongizerActivity extends Activity {
 //                    startActivity(main);
 //                    finish();
                     onBackPressed();
+                    finish();
                 }
             };
         }
@@ -69,7 +71,10 @@ public class RecongizerActivity extends Activity {
 
     @Override
     protected void onStart() {
+        Log.d(TAG, "onStart: recognition");
         super.onStart();
+        flag = true;
+        baseFaceView.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -77,6 +82,7 @@ public class RecongizerActivity extends Activity {
                     try {
                         Thread.sleep(100);
                         faceRecognizer();
+                        //Log.d(TAG, "run: isrunning ID: " + Thread.currentThread().getId());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -86,6 +92,7 @@ public class RecongizerActivity extends Activity {
                 IplImage face = baseFaceView.captureFace();
                 if( face != null){
                     int predict = faceRecognizer.predict(new Mat(face));
+                    Log.d(TAG, "faceRecognizer: predict:"+ predict);
                     if (predict == 1){
                         flag = false;
                         Log.d("rainjay", "faceRecognizer: login Success");
@@ -109,13 +116,44 @@ public class RecongizerActivity extends Activity {
     @Override
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed: recongition");
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        startService(new Intent(RecongizerActivity.this,LockScreenService.class));
+//                    }
+//                });
+//            }
+//        }).start();
+        moveTaskToBack(true);
         super.onBackPressed();
     }
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
-        finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //finish();
+        startService(new Intent(RecongizerActivity.this,LockScreenService.class));
+        //android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: recognition");
+        preview.startPreview();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause(){
+        Log.d(TAG, "onPause: recognition");
+        preview.stopPreview();
+        flag =false;
+        super.onPause();
+
     }
 }

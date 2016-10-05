@@ -15,7 +15,7 @@ public class LockScreenReceiver extends BroadcastReceiver {
         {
             Intent i = new Intent(context, RecongizerActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //i.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
         }
     }
