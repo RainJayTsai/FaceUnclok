@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import com.codemonkeylabs.fpslibrary.TinyDancer;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
@@ -65,14 +63,6 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
                 }
             };
         }
-
-                TinyDancer.create()
-                .redFlagPercentage(.1f) // set red indicator for 10%
-                .startingGravity(Gravity.TOP)
-                .startingXPosition(15)
-                .startingYPosition(15)
-                .show(this);
-
 
 
 
