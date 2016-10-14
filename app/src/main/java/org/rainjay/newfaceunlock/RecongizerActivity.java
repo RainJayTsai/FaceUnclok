@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import com.codemonkeylabs.fpslibrary.TinyDancer;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
@@ -64,7 +66,12 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
             };
         }
 
-
+                TinyDancer.create()
+                .redFlagPercentage(.1f) // set red indicator for 10%
+                .startingGravity(Gravity.TOP)
+                .startingXPosition(15)
+                .startingYPosition(15)
+                .show(this);
 
 
 
@@ -124,6 +131,8 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
     }
 
     private Toast toast = null;
+    private int count = 0;
+
     @Override
     public void execute(IplImage face) {
         int predict = faceRecognizer.predict(new Mat(face));
@@ -133,7 +142,12 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
             if(toast != null){
                 toast.cancel();
             }
-            Toast.makeText(RecongizerActivity.this, "Login Success!!", Toast.LENGTH_SHORT).show();
+            if( count != 0){
+                Toast.makeText(RecongizerActivity.this, "Login Success!! Try: " + count, Toast.LENGTH_SHORT).show();
+                count = 0;
+            }else {
+                Toast.makeText(RecongizerActivity.this, "Login Success!!", Toast.LENGTH_SHORT).show();
+            }
             mhandler.sendMessage(Message.obtain());
 
         }
@@ -141,12 +155,11 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
             baseFaceView.post(new Runnable() {
                 @Override
                 public void run() {
-                    if(toast != null)return;
-                    toast = Toast.makeText(RecongizerActivity.this, "Login Fail!!", Toast.LENGTH_SHORT);
+                    if(toast != null)toast.cancel();
+                    toast = Toast.makeText(RecongizerActivity.this, "Login Fail!! " + count++ , Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });
-            Log.d("rainjay", "faceRecognizer: Login Fail");
         }
     }
 }
