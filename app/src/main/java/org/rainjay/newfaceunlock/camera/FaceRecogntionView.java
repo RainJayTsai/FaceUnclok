@@ -3,7 +3,7 @@ package org.rainjay.newfaceunlock.camera;
 import android.content.Context;
 import android.util.AttributeSet;
 import org.bytedeco.javacpp.opencv_core.IplImage;
-import org.rainjay.newfaceunlock.imageutil.FaceRecogntion;
+import org.rainjay.newfaceunlock.imageutil.FaceRecognition;
 
 /**
  * Created by RainJay on 2016/10/14.
@@ -11,7 +11,7 @@ import org.rainjay.newfaceunlock.imageutil.FaceRecogntion;
 
 public class FaceRecogntionView extends BaseFaceView {
 
-    private FaceRecogntion activity;
+    private FaceRecognition activity = null;
 
     public FaceRecogntionView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -28,10 +28,14 @@ public class FaceRecogntionView extends BaseFaceView {
     @Override
     public IplImage processImage(byte[] data, int width, int height) {
         IplImage face = super.processImage(data, width, height);
-        if( face != null){
+        if( face != null && activity != null){
             activity.execute(face);
         }
         return face;
 
+    }
+
+    public void setActivity(FaceRecognition activity){
+        this.activity = activity;
     }
 }
