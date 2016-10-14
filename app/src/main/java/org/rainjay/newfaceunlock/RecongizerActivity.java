@@ -141,6 +141,7 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
             baseFaceView.post(new Runnable() {
                 @Override
                 public void run() {
+                    if(toast != null)return;
                     toast = Toast.makeText(RecongizerActivity.this, "Login Fail!!", Toast.LENGTH_SHORT);
                     toast.show();
                 }
