@@ -82,7 +82,7 @@ public class RecongizerActivity extends Activity {
                     try {
                         Thread.sleep(100);
                         faceRecognizer();
-                        //Log.d(TAG, "run: isrunning ID: " + Thread.currentThread().getId());
+                        Log.d(TAG, "run: isrunning ID: " + Thread.currentThread().getId());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

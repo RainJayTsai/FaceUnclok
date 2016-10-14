@@ -105,7 +105,7 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
 
 
     }
-    public void processImage(byte[] data, int width, int height) {
+    public IplImage processImage(byte[] data, int width, int height) {
         // First, downsample our image and convert it into a grayscale IplImage
         int f = SUBSAMPLING_FACTOR;
         IplImage transposed = null;
@@ -134,8 +134,9 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         cvClearMemStorage(storage);
         faces = cvHaarDetectObjects(grayImage, classifier, storage, 1.1, 3,
                 CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH);
-
+        newFaceFlag = true;
         postInvalidate();
+        return captureFace();
 
 
     }
@@ -163,15 +164,22 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
                 int x = r.x(), y = r.y(), w = r.width(), h = r.height();
                 canvas.drawRect(x*scaleX, y*scaleY, (x+w)*scaleX, (y+h)*scaleY, paint);
             }
-            faces = null;
+//            faces = null;
         }
     }
 
     public IplImage captureFace(){
-        if( faces == null || grayImage == null){ return null; }
-        if( faces.total() == 1)
-            return IpUtil.cropFace(grayImage,new CvRect(cvGetSeqElem(faces, 0)));
+        if( faces == null || grayImage == null || !isNewFace()){ return null; }
+        if( faces.total() == 1) {
+            newFaceFlag = false;
+            return IpUtil.cropFace(grayImage, new CvRect(cvGetSeqElem(faces, 0)));
+        }
         else
             return null;
+    }
+
+    private boolean newFaceFlag = false;
+    public boolean isNewFace(){
+        return newFaceFlag;
     }
 }
