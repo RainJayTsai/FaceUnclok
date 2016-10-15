@@ -134,7 +134,6 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
         cvClearMemStorage(storage);
         faces = cvHaarDetectObjects(grayImage, classifier, storage, 1.1, 3,
                 CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_DO_ROUGH_SEARCH);
-        newFaceFlag = true;
         postInvalidate();
         return captureFace();
 
@@ -169,17 +168,13 @@ public class BaseFaceView extends View implements Camera.PreviewCallback {
     }
 
     public IplImage captureFace(){
-        if( faces == null || grayImage == null || !isNewFace()){ return null; }
+        if( faces == null || grayImage == null){return null; }
         if( faces.total() == 1) {
-            newFaceFlag = false;
             return IpUtil.cropFace(grayImage, new CvRect(cvGetSeqElem(faces, 0)));
         }
         else
             return null;
     }
 
-    private boolean newFaceFlag = false;
-    public boolean isNewFace(){
-        return newFaceFlag;
-    }
+
 }

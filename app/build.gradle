@@ -17,6 +17,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        debug{
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+
     }
 
     packagingOptions {
@@ -24,6 +30,7 @@ android {
         pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
         pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.properties'
         pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.xml'
+
     }
     sourceSets{
         main{

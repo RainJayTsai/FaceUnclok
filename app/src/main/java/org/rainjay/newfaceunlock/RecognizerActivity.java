@@ -125,31 +125,32 @@ public class RecognizerActivity extends Activity implements FaceRecognition {
 
     @Override
     public void execute(IplImage face) {
-        int predict = faceRecognizer.predict(new Mat(face));
-        Log.d(TAG, "faceRecognizer: predict:"+ predict);
-        if (predict == 1){
-            flag = false;
-            if(toast != null){
-                toast.cancel();
-            }
-            if( count != 0){
-                Toast.makeText(RecognizerActivity.this, "Login Success!! Try: " + count, Toast.LENGTH_SHORT).show();
-                count = 0;
-            }else {
-                Toast.makeText(RecognizerActivity.this, "Login Success!!", Toast.LENGTH_SHORT).show();
-            }
-            mhandler.sendMessage(Message.obtain());
-
-        }
-        else {
-            baseFaceView.post(new Runnable() {
-                @Override
-                public void run() {
-                    if(toast != null)toast.cancel();
-                    toast = Toast.makeText(RecognizerActivity.this, "Login Fail!! " + count++ , Toast.LENGTH_SHORT);
-                    toast.show();
+        if (flag) {
+            int predict = faceRecognizer.predict(new Mat(face));
+            Log.d(TAG, "faceRecognizer: predict:" + predict);
+            if (predict == 1) {
+                flag = false;
+                if (toast != null) {
+                    toast.cancel();
                 }
-            });
+                if (count != 0) {
+                    Toast.makeText(RecognizerActivity.this, "Login Success!! Try: " + count, Toast.LENGTH_SHORT).show();
+                    count = 0;
+                } else {
+                    Toast.makeText(RecognizerActivity.this, "Login Success!!", Toast.LENGTH_SHORT).show();
+                }
+                mhandler.sendMessage(Message.obtain());
+
+            } else {
+                baseFaceView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (toast != null) toast.cancel();
+                        toast = Toast.makeText(RecognizerActivity.this, "Login Fail!! " + count++, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+            }
         }
     }
 }

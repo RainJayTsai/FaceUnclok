@@ -1,17 +1,16 @@
 package org.rainjay.newfaceunlock;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
+import android.view.Gravity;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
@@ -53,11 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
     public void goRegisterCamera(View view) {
         EditText numberText = (EditText)findViewById(R.id.editText);
 
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+//        InputMethodManager inputManager = (InputMethodManager)
+//                getSystemService(Context.INPUT_METHOD_SERVICE);
+//
+//        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+//                InputMethodManager.HIDE_NOT_ALWAYS);
 
         try {
             takeNum = Integer.valueOf(numberText.getText().toString());
@@ -72,22 +71,26 @@ public class RegisterActivity extends AppCompatActivity {
             createCameraView();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
-                INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        return true;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+//                INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+//        return true;
+//    }
 
 
     private  int counter = 0;
+    private Toast t = null;
     @SuppressWarnings("deprecation")
     public void takePhoto(View view) {
         IplImage facex = baseFaceView.captureFace();
         if( facex != null) {
             if(takeNum >= 1){
                 takeNum--;
+                if( takeNum > 0) {
+                    toastFactory("Remaining " + takeNum + " Photo");
+                }
                 trainImages.put(counter,new Mat(facex));
                 labelsBuf.put(counter, 1);
                 counter++;
@@ -137,5 +140,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void returnOnclick(View view) {
         finish();
+    }
+
+    private void toastFactory( String str ){
+        if (t != null)t.cancel();
+        t = Toast.makeText(this,str, Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.CENTER, 0, 0);
+        t.show();
     }
 }
