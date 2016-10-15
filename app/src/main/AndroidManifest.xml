@@ -37,7 +37,7 @@
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         </activity>
         <activity
-                android:name=".RecongizerActivity"
+                android:name=".RecognizerActivity"
                 android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>
 

@@ -3,7 +3,7 @@ package org.rainjay.newfaceunlock.service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import org.rainjay.newfaceunlock.RecongizerActivity;
+import org.rainjay.newfaceunlock.RecognizerActivity;
 
 public class LockScreenReceiver extends BroadcastReceiver {
     @Override
@@ -13,7 +13,7 @@ public class LockScreenReceiver extends BroadcastReceiver {
         //If the screen was just turned on or it just booted up, start your Lock Activity
         if(action.equals(Intent.ACTION_SCREEN_OFF) || action.equals(Intent.ACTION_BOOT_COMPLETED))
         {
-            Intent i = new Intent(context, RecongizerActivity.class);
+            Intent i = new Intent(context, RecognizerActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);

@@ -5,6 +5,6 @@
         android:id="@+id/activity_recongizer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="org.rainjay.newfaceunlock.RecongizerActivity">
+        tools:context="org.rainjay.newfaceunlock.RecognizerActivity">
 
 </RelativeLayout>

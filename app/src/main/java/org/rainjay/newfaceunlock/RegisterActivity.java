@@ -1,10 +1,13 @@
 package org.rainjay.newfaceunlock;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_register);
-        faceRecognizer = FaceRecognizerSingleton.getInstance();
+        faceRecognizer = FaceRecognizerSingleton.getInstance(this);
 
     }
 
@@ -49,6 +52,13 @@ public class RegisterActivity extends AppCompatActivity {
     private IntBuffer labelsBuf = null;
     public void goRegisterCamera(View view) {
         EditText numberText = (EditText)findViewById(R.id.editText);
+
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+
         try {
             takeNum = Integer.valueOf(numberText.getText().toString());
         } catch (NumberFormatException e) {
@@ -61,6 +71,15 @@ public class RegisterActivity extends AppCompatActivity {
             counter = 0;
             createCameraView();
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+                INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        return true;
+    }
+
 
     private  int counter = 0;
     @SuppressWarnings("deprecation")

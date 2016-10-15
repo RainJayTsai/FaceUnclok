@@ -20,7 +20,7 @@ import org.rainjay.newfaceunlock.service.LockScreenService;
 
 import java.io.File;
 
-public class RecongizerActivity extends Activity implements FaceRecognition {
+public class RecognizerActivity extends Activity implements FaceRecognition {
 
     private FaceRecognizer faceRecognizer =null;
     private RelativeLayout layout;
@@ -33,7 +33,7 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recongizer);
+        setContentView(R.layout.activity_recognizer);
 
 
         if( new File(getFilesDir()+FaceRecognizerSingleton.getSaveFileName()).exists()){
@@ -43,15 +43,15 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
             preview = new CameraSurfaceView(this,baseFaceView);
             layout.addView(preview);
             layout.addView(baseFaceView);
-            faceRecognizer = FaceRecognizerSingleton.getInstance();
+            faceRecognizer = FaceRecognizerSingleton.getInstance(this);
             faceRecognizer.load(getFilesDir()+FaceRecognizerSingleton.getSaveFileName());
             mhandler = new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    startService(new Intent(RecongizerActivity.this, LockScreenService.class));
+                    startService(new Intent(RecognizerActivity.this, LockScreenService.class));
                     baseFaceView.setVisibility(View.INVISIBLE);
-//                    Intent main = new Intent(RecongizerActivity.this, MainActivity.class);
+//                    Intent main = new Intent(RecognizerActivity.this, MainActivity.class);
 //                    main.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    Bundle bundle = new Bundle();
 //                    bundle.putBoolean("EXIT",true);
@@ -85,7 +85,7 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
 //                runOnUiThread(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        startService(new Intent(RecongizerActivity.this,LockScreenService.class));
+//                        startService(new Intent(RecognizerActivity.this,LockScreenService.class));
 //                    }
 //                });
 //            }
@@ -99,7 +99,7 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
         Log.d(TAG, "onDestroy: ");
         super.onDestroy();
         //finish();
-        startService(new Intent(RecongizerActivity.this,LockScreenService.class));
+        startService(new Intent(RecognizerActivity.this,LockScreenService.class));
         //android.os.Process.killProcess(android.os.Process.myPid());
     }
 
@@ -133,10 +133,10 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
                 toast.cancel();
             }
             if( count != 0){
-                Toast.makeText(RecongizerActivity.this, "Login Success!! Try: " + count, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecognizerActivity.this, "Login Success!! Try: " + count, Toast.LENGTH_SHORT).show();
                 count = 0;
             }else {
-                Toast.makeText(RecongizerActivity.this, "Login Success!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecognizerActivity.this, "Login Success!!", Toast.LENGTH_SHORT).show();
             }
             mhandler.sendMessage(Message.obtain());
 
@@ -146,7 +146,7 @@ public class RecongizerActivity extends Activity implements FaceRecognition {
                 @Override
                 public void run() {
                     if(toast != null)toast.cancel();
-                    toast = Toast.makeText(RecongizerActivity.this, "Login Fail!! " + count++ , Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(RecognizerActivity.this, "Login Fail!! " + count++ , Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });
