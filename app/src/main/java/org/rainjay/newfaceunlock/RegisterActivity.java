@@ -14,8 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import org.bytedeco.javacpp.opencv_core.*;
+import org.bytedeco.javacpp.opencv_core;
+import org.bytedeco.javacpp.opencv_core.IplImage;
+import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
+import org.bytedeco.javacpp.opencv_imgproc;
 import org.rainjay.newfaceunlock.camera.BaseFaceView;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 import org.rainjay.newfaceunlock.imageutil.FaceRecognizerSingleton;
@@ -23,9 +27,10 @@ import org.rainjay.newfaceunlock.imageutil.FaceRecognizerSingleton;
 import java.io.File;
 import java.nio.IntBuffer;
 
-import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgproc.CV_GRAY2RGBA;
+import static org.bytedeco.javacpp.opencv_core.IPL_DEPTH_8U;
 import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
+import static org.bytedeco.javacpp.opencv_imgproc.cvEqualizeHist;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -68,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if( takeNum > 0)
             trainImages = new MatVector(takeNum);
-            trainLabel = new Mat(takeNum,1,CV_32SC1);
+            trainLabel = new Mat(takeNum,1, opencv_core.CV_32SC1);
             labelsBuf = trainLabel.createBuffer();
             counter = 0;
             createCameraView();
@@ -94,6 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if( takeNum > 0) {
                     toastFactory("Remaining " + takeNum + " Photo");
                 }
+                cvEqualizeHist(facex,facex);
                 trainImages.put(counter,new Mat(facex));
                 labelsBuf.put(counter, 1);
                 counter++;
@@ -134,8 +140,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private  void showTakePhoto(IplImage face){
         Bitmap bmp = Bitmap.createBitmap(face.width(), face.height(), Config.ARGB_8888);
-        IplImage temp = cvCreateImage(cvGetSize(face), IPL_DEPTH_8U, 4);
-        cvCvtColor(face, temp , CV_GRAY2RGBA);
+        IplImage temp = opencv_core.cvCreateImage(opencv_core.cvGetSize(face), IPL_DEPTH_8U, 4);
+        cvCvtColor(face, temp , opencv_imgproc.CV_GRAY2RGBA);
         bmp.copyPixelsFromBuffer(temp.createBuffer());
         ImageView image = (ImageView) findViewById(R.id.faceimage);
         image.setImageBitmap(bmp);

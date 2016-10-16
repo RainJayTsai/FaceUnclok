@@ -12,6 +12,7 @@ import android.widget.Toast;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
+import org.bytedeco.javacpp.opencv_imgproc;
 import org.rainjay.newfaceunlock.camera.CameraSurfaceView;
 import org.rainjay.newfaceunlock.camera.FaceRecogntionView;
 import org.rainjay.newfaceunlock.imageutil.FaceRecognition;
@@ -126,6 +127,7 @@ public class RecognizerActivity extends Activity implements FaceRecognition {
     @Override
     public void execute(IplImage face) {
         if (flag) {
+            opencv_imgproc.cvEqualizeHist(face,face);
             int predict = faceRecognizer.predict(new Mat(face));
             Log.d(TAG, "faceRecognizer: predict:" + predict);
             if (predict == 1) {
