@@ -12,8 +12,6 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.List;
 
-import static com.codemonkeylabs.fpslibrary.Foreground.TAG;
-
 /**
  * Created by RainJay on 2016/9/26.
  */
@@ -92,7 +90,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(TAG, "surfaceDestroyed: ");
+        Log.d("rainjay", "surfaceDestroyed: ");
         mCamera.setPreviewCallback(null);
         mCamera.stopPreview();
         mCamera.release();
